@@ -1,0 +1,18 @@
+services:
+  surrealdb:
+    image: surrealdb/surrealdb:v3.3.0
+    command:
+      - start
+      - --log
+      - info
+      - --user
+      - root
+      - --pass
+      - root
+      - rocksdb:/data/fred.db
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data/surreal:/data
+    restart: unless-stopped
+

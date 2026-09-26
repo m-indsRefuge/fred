@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-09-26T22:31:06.077Z",
+  "updatedAtMs": 1790461866077,
+  "reason": "windowFocus",
+  "extension": {
+    "name": "editor-state-mcp",
+    "version": "0.1.4"
+  },
+  "window": {
+    "id": "3b9e51f2",
+    "pid": 54844,
+    "focused": true,
+    "vscodeVersion": "1.139.1",
+    "heartbeatPath": "C:\\Users\\nolan\\.editor-state-mcp\\heartbeat\\54844.json"
+  },
+  "workspace": {
+    "name": "fred",
+    "workspaceFile": null,
+    "folders": [
+      "c:\\Users\\nolan\\AIProjects\\fred"
+    ]
+  },
+  "activeEditor": null,
+  "selection": null,
+  "additionalSelections": [],
+  "cursor": null,
+  "lastDeliberateSelection": null,
+  "openTabs": [
+    {
+      "relativePath": null,
+      "path": null,
+      "scheme": null,
+      "kind": "other",
+      "isActive": true,
+      "isDirty": false,
+      "isPinned": false,
+      "groupId": 1
+    }
+  ],
+  "recentFiles": [],
+  "truncation": {
+    "openTabsCapped": false,
+    "recentFilesCapped": false
+  }
+}
