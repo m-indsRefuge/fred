@@ -1,0 +1,2 @@
+[console_scripts]
+fred = fred.cli:main

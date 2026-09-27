@@ -1,18 +1,18 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-09-26T23:52:34.643Z",
-  "updatedAtMs": 1790466754643,
+  "updatedAt": "2026-09-27T10:06:21.845Z",
+  "updatedAtMs": 1790503581845,
   "reason": "windowFocus",
   "extension": {
     "name": "editor-state-mcp",
     "version": "0.1.4"
   },
   "window": {
-    "id": "3b9e51f2",
-    "pid": 54844,
+    "id": "d3205b85",
+    "pid": 30208,
     "focused": true,
     "vscodeVersion": "1.139.1",
-    "heartbeatPath": "C:\\Users\\nolan\\.editor-state-mcp\\heartbeat\\54844.json"
+    "heartbeatPath": "C:\\Users\\nolan\\.editor-state-mcp\\heartbeat\\30208.json"
   },
   "workspace": {
     "name": "fred",

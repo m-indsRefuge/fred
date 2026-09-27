@@ -1,0 +1,147 @@
+Metadata-Version: 2.4
+Name: fred-memory-complex
+Version: 0.1.0
+Summary: Fred Memory Complex V1 research implementation
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+Requires-Dist: httpx<1,>=0.28
+Requires-Dist: pydantic<3,>=2.12
+Provides-Extra: dev
+Requires-Dist: pytest<10,>=9; extra == "dev"
+Requires-Dist: ruff<1,>=0.16; extra == "dev"
+
+# Fred Memory Complex V1 (MEM-01)
+
+MEM-01 is the first executable memory milestone for Fred. It stores immutable
+Experience evidence and derived Memory interpretations in one SurrealDB
+cognitive substrate, retrieves them through vector, BM25, structured/entity,
+and graph channels, and consolidates Memory through the bounded Sleep cycle.
+
+The implementation follows these core invariants:
+
+- Experience is immutable after commit.
+- Memory starts `PROVISIONAL` and normal retrieval sees only `ACTIVE` Memory.
+- A proposer and an independent evidence-verifier are separate model calls.
+- Model output never writes directly to persistence.
+- Sleep operations are exactly `KEEP`, `MERGE`, `PROMOTE`, and `TOMBSTONE`.
+- Sleep may mutate Memory but never Experience.
+- The Observer is read-only with respect to cognitive state.
+
+## PowerShell setup
+
+From `C:\Users\nolan\AIProjects\fred`:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -e ".[dev]"
+```
+
+Fred reads configuration from process environment variables and otherwise uses
+the defaults in `FredConfig`. The repository includes `.env.example` as a
+reference for variable names; copying it to `.env` does not load it
+automatically.
+
+The default runtime expects SurrealDB 3.3.x. `compose.yaml` pins
+`surrealdb/surrealdb:v3.3.0`.
+
+```powershell
+docker compose up -d
+```
+
+The default cognitive and embedding models are intentionally fixed for the
+first qualification cycle:
+
+```powershell
+ollama pull qwen3:8b
+ollama pull qwen3-embedding:0.6b
+```
+
+Do not silently substitute another embedding model during MEM-01 acceptance.
+
+## Health and schema
+
+```powershell
+fred health
+fred migrate
+```
+
+`fred health` exits non-zero unless SurrealDB, Ollama, `qwen3:8b`, and
+`qwen3-embedding:0.6b` are all available.
+
+## Deterministic verification
+
+```powershell
+python -m compileall src tests
+ruff check .
+pytest -q
+```
+
+The deterministic suite uses an in-memory backend and stub models. It does not
+count as live SurrealDB/Ollama experiment acceptance.
+
+## Memory Observer
+
+The Observer reads the same persisted substrate and traces without writing
+cognitive state:
+
+```powershell
+fred observer
+fred observer --session-id <session-id>
+```
+
+It exposes Experience, State, Memory lifecycle state, retrieval traces,
+foreground proposal/validation traces, Sleep traces, provenance, and errors as
+machine-readable JSON.
+
+## Behavioural experiments
+
+Each live run uses an isolated SurrealDB database and writes the required
+artifacts under `artifacts/memory_v1/<experiment>/<run-id>/`:
+
+```text
+run.json
+trace.jsonl
+metrics.json
+result.json
+```
+
+Run one frozen experiment with the required five independent runs:
+
+```powershell
+fred experiment EXP-01 --runs 5
+fred experiment EXP-02 --runs 5
+fred experiment EXP-03 --runs 5
+fred experiment EXP-04 --runs 5
+```
+
+Or run the full behavioural acceptance set:
+
+```powershell
+fred experiment all --runs 5
+```
+
+The acquisition and probe phases use different stateless Ollama model wrapper
+instances while retaining the same persisted database. EXP-03's hidden
+`X/Y/Z` mapping and EXP-04's hidden rule remain harness-only; the model receives
+only task inputs plus `SUCCESS`/`FAILURE` feedback.
+
+## Guarded experiment cleanup
+
+Every experiment database name is generated in the form
+`fred_mem01_exp0N_<12 hex chars>`. The cleanup command refuses any other name:
+
+```powershell
+fred reset-experiment-db fred_mem01_exp01_0123456789ab
+```
+
+The normal `fred_mem01` database is therefore outside the accepted reset
+pattern.
+
+## Research boundaries
+
+MEM-01 deliberately excludes Temporal Guidance, a Digital Cerebellum,
+age-based decay, archival/pruning subsystems, distributed services, and UI
+polish. The research source of truth is `docs/MEMORY_COMPLEX_V1_SPEC.md`, with
+the build, Python, experiment, failure-map, and SurrealDB contracts alongside
+it in this repository.

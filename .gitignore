@@ -7,3 +7,6 @@ __pycache__/
 artifacts/
 data/
 !.editor-state/
+
+# editor-state-mcp: live editor state (machine-local)
+.editor-state/
